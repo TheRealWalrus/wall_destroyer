@@ -8,8 +8,8 @@ public class Main extends PApplet {
 
     static boolean p1LeftPressed, p1RightPressed, p1FirePressed, p2LeftPressed, p2RightPressed, p2FirePressed;
 
-    private Ball ball = new Ball(new PVector(40, 60));
-    private Paddle paddle = new Paddle(new PVector(width / 2, height));
+    private Ball ball;
+    private Paddle paddle;
 
     public static void main(String[] args) {
         PApplet.main("wall_destroyer.Main");
@@ -23,6 +23,9 @@ public class Main extends PApplet {
     @Override
     public void setup(){
         p5 = this;
+
+        ball = new Ball(new PVector(40, 60));
+        paddle = new Paddle(new PVector(width / 2, height - 40));
     }
 
     @Override
@@ -38,16 +41,16 @@ public class Main extends PApplet {
 
     @Override
     public void keyPressed() {
-        //setMove(keyCode, true);
-        println("keyPressed");
+        setMove(keyCode, true);
+        //println("keyPressed");
     }
 
     @Override
     public void keyReleased() {
-        //setMove(keyCode, false);
+        setMove(keyCode, false);
     }
 
-    public boolean setMove(int k, boolean b) { //"switch" is similar to the "else if" structure
+    public boolean setMove(int k, boolean b) {
         switch (k) {
             case LEFT:
                 return p1LeftPressed = b;
