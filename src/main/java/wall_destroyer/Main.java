@@ -32,10 +32,15 @@ public class Main extends PApplet {
     public void draw(){
         background(0);
 
-        paddle.update();
-        paddle.display();
+        paddle.hits(ball);
 
+
+        paddle.update();
         ball.update();
+
+
+
+        paddle.display();
         ball.display();
     }
 
