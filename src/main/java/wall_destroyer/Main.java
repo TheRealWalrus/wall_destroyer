@@ -3,12 +3,15 @@ package wall_destroyer;
 import processing.core.PApplet;
 import processing.core.PVector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main extends PApplet {
     static PApplet p5;
 
     static boolean p1LeftPressed, p1RightPressed, p1FirePressed, p2LeftPressed, p2RightPressed, p2FirePressed;
 
-    private Ball ball;
+    private List<Ball> balls = new ArrayList<Ball>();
     private Paddle paddle;
 
     public static void main(String[] args) {
@@ -24,24 +27,22 @@ public class Main extends PApplet {
     public void setup(){
         p5 = this;
 
-        ball = new Ball(new PVector(40, 60));
-        paddle = new Paddle(new PVector(width / 2, height - 40));
+        balls.add(new Ball());
+        paddle = new Paddle(new PVector(width / 2f, height - 40));
     }
 
     @Override
     public void draw(){
         background(0);
 
-        paddle.hits(ball);
-
-
         paddle.update();
-        ball.update();
-
-
-
         paddle.display();
-        ball.display();
+
+        for (Ball ball : balls) {
+            paddle.hits(ball);
+            ball.update();
+            ball.display();
+        }
     }
 
     @Override

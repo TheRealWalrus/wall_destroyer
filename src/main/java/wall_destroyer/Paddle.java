@@ -2,6 +2,10 @@ package wall_destroyer;
 
 import processing.core.PVector;
 
+import static processing.core.PApplet.constrain;
+import static processing.core.PApplet.map;
+import static processing.core.PConstants.CENTER;
+import static processing.core.PConstants.PI;
 import static wall_destroyer.Main.p5;
 
 public class Paddle extends GameObject {
@@ -23,23 +27,27 @@ public class Paddle extends GameObject {
             getLocation().x -= speed;
         }
 
-
+        getLocation().x = constrain(getLocation().x, width / 2, p5.width - width / 2);
     }
 
     @Override
     public void display() {
+        p5.rectMode(CENTER);
         p5.rect(getLocation().x, getLocation().y, width, height);
     }
 
     public void hits(Ball ball) {
-        if (CollisionDetector.lineCircle(getLocation(), new PVector(getLocation().x + width, getLocation().y), ball.getLocation(), ball.getR())) {
+        if (ball.getLocation().x >= getLocation().x - width / 2 &&
+                ball.getLocation().x <= getLocation().x + width / 2 &&
+                ball.getLocation().y + ball.getR() >= getLocation().y - height / 2 &&
+                ball.getLocation().y + ball.getR() <= getLocation().y + height / 2) {
+            float ballRelativeX = ball.getLocation().x - (getLocation().x - width / 2);
+            float angle = map(ballRelativeX, 0, width, 5f / 4 * PI, 7f / 4 * PI);
 
-            PVector newVelocity = PVector.random2D();
-            newVelocity.setMag(7);
+            PVector newBallVelocity = PVector.fromAngle(angle);
+            newBallVelocity.setMag(ball.getVelocity().mag());
 
-            ball.setVelocity(newVelocity);
-
-            System.out.println("HIT REGISTERED");
+            ball.setVelocity(newBallVelocity);
         }
     }
 }

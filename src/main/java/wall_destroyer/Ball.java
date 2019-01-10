@@ -7,16 +7,12 @@ import static wall_destroyer.Main.p5;
 public class Ball extends GameObject {
     private int r = 10;
 
-    Ball(PVector location) {
-        super(location);
-        setVelocity(PVector.random2D());
-        getVelocity().setMag(7);
+    Ball() {
+        setup();
     }
 
     @Override
     public void update() {
-        super.update();
-
         if (getLocation().x < r) {
             getLocation().x = r;
             getVelocity().x *= -1;
@@ -28,10 +24,19 @@ public class Ball extends GameObject {
         if (getLocation().y < r) {
             getLocation().y = r;
             getVelocity().y *= -1;
-        } else if (getLocation().y > p5.height - r) {
-            getLocation().y = p5.height - r;
-            getVelocity().y *= -1;
+        } else if (getLocation().y - r > p5.height) {
+            setup();
+
         }
+
+        super.update();
+    }
+
+
+    void setup() {
+        setLocation(new PVector(p5.width / 2f, p5.height / 2f));
+        setVelocity(PVector.random2D());
+        getVelocity().setMag(7);
     }
 
     @Override

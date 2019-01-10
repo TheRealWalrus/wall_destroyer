@@ -6,6 +6,9 @@ public abstract class GameObject {
     private PVector location;
     private PVector velocity;
 
+    GameObject() {
+    }
+
     GameObject(PVector location) {
         this.location = location;
     }
